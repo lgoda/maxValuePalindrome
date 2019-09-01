@@ -42,18 +42,16 @@ public class PalindromeServiceImpl implements PalindromeService {
                 }
             }
 
-            // If character at lth (same as rth) is
-            // less than 9
             if (palindrome[left] < MAX_NUMBER_DIGIT) {
                 /* If none of them is changed in the
-            previous loop then subtract 2 from remainingChanges
-            and convert both to 9 */
+                    previous loop then subtract 2 from remainingChanges
+                    and convert both to 9 */
                 if (remainingChanges >= 2 && palindrome[left] == original.charAt(left)
                         && palindrome[right] == original.charAt(right)) {
                     remainingChanges -= 2;
                     palindrome[left] = palindrome[right] = MAX_NUMBER_DIGIT;
                 } /* If one of them is changed in the previous
-                loop then subtract 1 from K (1 more is
+                loop then subtract 1 from remainingChanges (1 more is
                 subtracted already) and make them 9 */ else if (remainingChanges >= 1 && (palindrome[left] != original.charAt(left)
                         || palindrome[right] != original.charAt(right))) {
                     remainingChanges--;
@@ -74,6 +72,7 @@ public class PalindromeServiceImpl implements PalindromeService {
     }
 
     private int transformToPalindrome(char[] number) {
+
         final int size = number.length;
 
         int left = 0;
@@ -94,10 +93,4 @@ public class PalindromeServiceImpl implements PalindromeService {
         return numberOfChanges;
     }
 
-
-    public static void main(String[] args) {
-        String s = "11";
-        PalindromeService ps = new PalindromeServiceImpl();
-        ps.highestValuePalindrome(s, 5);
-    }
 }

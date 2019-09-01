@@ -13,6 +13,8 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,9 +45,28 @@ class PalindromeServiceImplTest {
     @DisplayName("Test High Inputs")
     Collection<DynamicTest> dynamicTestsFromCollection() {
         return Arrays.asList(
-                dynamicTest("1st dynamic test", () -> assertEquals(Optional.of(BIG_INPUT_1_EXPECTED_RESULT), palindromeService.highestValuePalindrome(BIG_INPUT_1,79655))),
+                dynamicTest("1st dynamic test", () -> assertEquals(Optional.of(BIG_INPUT_1_EXPECTED_RESULT), palindromeService.highestValuePalindrome(BIG_INPUT_1, 79655))),
                 dynamicTest("3nd dynamic test", () -> assertEquals(Optional.of(BIG_INPUT_2_EXPECTED_RESULT), palindromeService.highestValuePalindrome(BIG_INPUT_2, 50356)))
         );
     }
 
+    @TestFactory
+    @DisplayName("Test Number And MaximumAllowedChanges coincident")
+    Stream<DynamicTest> dynamicTestsFromIntStream() {
+        // Generates tests for the first 10 even integers.
+        return IntStream.iterate(1, n -> n + 1).limit(1000)
+                .mapToObj(n -> dynamicTest("number = " + n, () -> assertEquals(Optional.of(String.valueOf((int)Math.pow(10,getNumberLength(n)) - 1)), palindromeService.highestValuePalindrome(String.valueOf(n),
+                        Integer.valueOf(n)))));
+    }
+
+    private int getNumberLength(int number) {
+        if (number == 0) return 1;
+        int ratio = number;
+        int length = 0;
+        while (ratio != 0) {
+            ratio = ratio / 10;
+            length++;
+        }
+        return length;
+    }
 }
